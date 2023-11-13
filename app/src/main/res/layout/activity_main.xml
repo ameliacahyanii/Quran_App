@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/white"
-        app:itemIconTint="@color/primary"
+        app:itemIconTint="@color/on_primary"
         app:itemTextColor="@color/on_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/nav_bottom_menu"/>
