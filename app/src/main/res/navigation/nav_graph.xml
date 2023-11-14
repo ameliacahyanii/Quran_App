@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/nav_quran"
-        android:name="com.setiadev.quran.presentation.QuranFragment"
+        android:name="com.setiadev.quran.presentation.quran.QuranFragment"
         android:label="fragment_quran"
         tools:layout="@layout/fragment_quran"/>
     <fragment
         android:id="@+id/nav_adzan"
-        android:name="com.setiadev.quran.presentation.AdzanFragment"
+        android:name="com.setiadev.quran.presentation.adzan.AdzanFragment"
         android:label="fragment_adzan"
         tools:layout="@layout/fragment_adzan"/>
     <fragment
         android:id="@+id/nav_doa"
-        android:name="com.setiadev.quran.presentation.DoaFragment"
+        android:name="com.setiadev.quran.presentation.doa.DoaFragment"
         android:label="fragment_doa"
         tools:layout="@layout/fragment_doa"/>
 
