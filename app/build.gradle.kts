@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -10,8 +11,8 @@ android {
 
     defaultConfig {
         applicationId = "com.setiadev.quran"
-        minSdk = 24
-        targetSdk = 33
+        minSdk = 30
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -41,6 +42,15 @@ android {
 }
 
 dependencies {
+
+    //FusedLocation
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    //coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    //LiveData
+    api("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 
     //Moshi
     implementation("com.squareup.moshi:moshi:1.14.0")

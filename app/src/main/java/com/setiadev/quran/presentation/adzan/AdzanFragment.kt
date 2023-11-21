@@ -1,60 +1,79 @@
 package com.setiadev.quran.presentation.adzan
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.setiadev.quran.R
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.setiadev.quran.databinding.FragmentAdzanBinding
+import com.setiadev.quran.network.Resource
+import com.setiadev.quran.presentation.ViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AdzanFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AdzanFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentAdzanBinding? = null
+    private val binding get() = _binding as FragmentAdzanBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val adzanViewModel: AdzanViewModel by viewModels { ViewModelFactory(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_adzan, container, false)
+    ): View {
+        _binding = FragmentAdzanBinding.inflate(layoutInflater)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AdzanFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AdzanFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        adzanViewModel.getDailyAdzanTime().observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    binding.apply {
+                        it.data?.let { adzanDataResult ->
+                            tvLocation.text = adzanDataResult.listLocation[1]
+                            when (val listCity = adzanDataResult.listCity) {
+                                is Resource.Loading -> {}
+                                is Resource.Success -> {
+                                    val idCity = listCity.data?.get(0)?.id
+                                    val cityName = listCity.data?.get(0)?.lokasi
+                                    Toast.makeText(
+                                        context,
+                                        "id city: $idCity. $cityName",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                is Resource.Error -> {
+                                    Toast.makeText(context, listCity.message, Toast.LENGTH_SHORT)
+                                        .show()
+                                    Log.e(
+                                        "AdzanFragment",
+                                        "getCity Id & Location: ${listCity.message}",
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                is Resource.Error -> {
+                    Toast.makeText(context, "Error Update Your Location:\n" + it.message, Toast.LENGTH_SHORT)
+                        .show()
+                    Log.e(
+                        "AdzanFragment",
+                        "Error when updating your location: ${it.message}",
+                    )
                 }
             }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
