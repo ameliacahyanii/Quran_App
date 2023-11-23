@@ -6,78 +6,59 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class DailyResponse(
 
-    @Json(name="data")
+    @Json(name = "data")
     val dailyData: DailyData,
 
-    @Json(name="status")
+    @Json(name = "status")
     val status: Boolean? = null
 )
 
 @JsonClass(generateAdapter = true)
 data class DailyData(
 
-    @Json(name="jadwal")
+    @Json(name = "jadwal")
     val jadwalItem: JadwalItem,
 
-    @Json(name="lokasi")
+    @Json(name = "lokasi")
     val lokasi: String? = null,
 
-    @Json(name="daerah")
+    @Json(name = "daerah")
     val daerah: String? = null,
 
-    @Json(name="id")
+    @Json(name = "id")
     val id: String? = null,
-
-    @Json(name="koordinat")
-    val koordinat: Koordinat? = null
-)
-
-@JsonClass(generateAdapter = true)
-data class Koordinat(
-
-    @Json(name="lintang")
-    val lintang: String? = null,
-
-    @Json(name="lon")
-    val lon: Any? = null,
-
-    @Json(name="lat")
-    val lat: Any? = null,
-
-    @Json(name="bujur")
-    val bujur: String? = null
 )
 
 @JsonClass(generateAdapter = true)
 data class JadwalItem(
 
-    @Json(name="date")
+    @Json(name = "date")
     val date: String? = null,
 
-    @Json(name="imsak")
+    @Json(name = "imsak")
     val imsak: String? = null,
 
-    @Json(name="isya")
+    @Json(name = "isya")
     val isya: String? = null,
 
-    @Json(name="dzuhur")
+    @Json(name = "dzuhur")
     val dzuhur: String? = null,
 
-    @Json(name="subuh")
+    @Json(name = "subuh")
     val subuh: String? = null,
 
-    @Json(name="dhuha")
+    @Json(name = "dhuha")
     val dhuha: String? = null,
 
-    @Json(name="terbit")
+    @Json(name = "terbit")
     val terbit: String? = null,
 
-    @Json(name="tanggal")
+    @Json(name = "tanggal")
     val tanggal: String? = null,
 
-    @Json(name="ashar")
+    @Json(name = "ashar")
     val ashar: String? = null,
 
-    @Json(name="maghrib")
+    @Json(name = "maghrib")
     val maghrib: String? = null
 )

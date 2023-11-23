@@ -2,6 +2,8 @@ package com.setiadev.quran.utils
 
 import com.setiadev.quran.network.adzan.City
 import com.setiadev.quran.network.adzan.CityItem
+import com.setiadev.quran.network.adzan.DailyAdzan
+import com.setiadev.quran.network.adzan.JadwalItem
 import com.setiadev.quran.network.quran.Ayah
 import com.setiadev.quran.network.quran.AyahsItem
 import com.setiadev.quran.network.quran.QuranEdition
@@ -73,5 +75,22 @@ object DataMapper {
             listCity.add(city)
         }
         return flowOf(listCity)
+    }
+
+    @JvmName("mapDailyResponseToDomain")
+    fun mapResponseToDomain(input: JadwalItem): Flow<DailyAdzan> {
+        val dailyAdzan = DailyAdzan(
+            date = input.date,
+            imsak = input.imsak,
+            isya = input.isya,
+            dzuhur = input.dzuhur,
+            subuh = input.subuh,
+            dhuha = input.dhuha,
+            terbit = input.terbit,
+            tanggal = input.tanggal,
+            ashar = input.ashar,
+            maghrib = input.maghrib
+        )
+        return flowOf(dailyAdzan)
     }
 }

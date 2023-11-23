@@ -4,5 +4,6 @@ import com.setiadev.quran.network.Resource
 
 data class AdzanDataResult(
     val listLocation: List<String>,
-    val listCity: Resource<List<City>>
+    val dailyAdzan: Resource<DailyAdzan>,
+    val listCalendar: List<String>
 )

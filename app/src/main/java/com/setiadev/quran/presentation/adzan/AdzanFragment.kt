@@ -35,38 +35,38 @@ class AdzanFragment : Fragment() {
                     binding.apply {
                         it.data?.let { adzanDataResult ->
                             tvLocation.text = adzanDataResult.listLocation[1]
-                            when (val listCity = adzanDataResult.listCity) {
-                                is Resource.Loading -> {}
-                                is Resource.Success -> {
-                                    val idCity = listCity.data?.get(0)?.id
-                                    val cityName = listCity.data?.get(0)?.lokasi
-                                    Toast.makeText(
-                                        context,
-                                        "id city: $idCity. $cityName",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-
-                                is Resource.Error -> {
-                                    Toast.makeText(context, listCity.message, Toast.LENGTH_SHORT)
-                                        .show()
-                                    Log.e(
-                                        "AdzanFragment",
-                                        "getCity Id & Location: ${listCity.message}",
-                                    )
+                            tvDate.text = adzanDataResult.listCalendar[3]
+                        }
+                    }
+                    when (val adzanTime = it.data?.dailyAdzan) {
+                        is Resource.Loading -> {}
+                        is Resource.Success -> {
+                            binding.apply {
+                                adzanTime.data?.let { time ->
+                                    tvTimeImsak.text = time.imsak
+                                    tvTimeSubuh.text = time.subuh
+                                    tvTimeDzuhur.text = time.dzuhur
+                                    tvTimeAshar.text = time.ashar
+                                    tvTimeMaghrib.text = time.maghrib
+                                    tvTimeIsya.text = time.isya
                                 }
                             }
+                        }
+
+                        is Resource.Error -> {
+                            Log.e("AdzanFragment", "error getting schedule: ${adzanTime.message}", )
+                            Toast.makeText(context, "Error: ${adzanTime.message}", Toast.LENGTH_SHORT).show()
+                        }
+                        else -> {
+                            Log.e("AdzanFragment", "error getting location: ${it.message}", )
+                            Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
 
                 is Resource.Error -> {
-                    Toast.makeText(context, "Error Update Your Location:\n" + it.message, Toast.LENGTH_SHORT)
-                        .show()
-                    Log.e(
-                        "AdzanFragment",
-                        "Error when updating your location: ${it.message}",
-                    )
+                    Log.e("AdzanFragment", "error observing AdzanViewModel: ${it.message}", )
+                    Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
