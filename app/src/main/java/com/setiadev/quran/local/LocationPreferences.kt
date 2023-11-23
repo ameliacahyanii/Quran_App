@@ -28,22 +28,44 @@ class LocationPreferences(val context: Context) {
                 val city = listAddress[0].subAdminArea
                 val cityListName = city.split(" ")
 
-                val resultOfCity = if (cityListName.size > 1) cityListName[1]
-                else cityListName[0]
-                Log.i("LocationPreferences", "City Name: $resultOfCity")
+                val currentLanguage = Locale.getDefault().language
+                Log.i("LocPref", "currentLanguage: $currentLanguage")
+
+                val resultOfCity = when (currentLanguage) {
+                    "in" -> getNameOfCity(cityListName, false)
+                    "en" -> getNameOfCity(cityListName, true)
+                    else -> "Jakarta"
+                }
+                Log.i("LocPref", "City Name: $resultOfCity")
 
                 val subLocality = listAddress[0].subLocality
                 val locality = listAddress[0].locality
                 val address = "$subLocality, $locality"
-                Log.i("LocationPreferences", "Address: $address")
+                Log.i("LocPref", "Address: $address")
 
-                lastKnownLocation.postValue(listOf(resultOfCity, address))
+                val listCity = listOf(resultOfCity, address)
+                Log.i("LocPref", "getLastKnownLocation: $listCity")
+                lastKnownLocation.postValue(listCity)
             }
 
             fusedLocationClient.lastLocation.addOnFailureListener { exception ->
-                Log.e("SharedViewModel", "requestLocationUpdates: " + exception.localizedMessage)
+                Log.e("LocPref", "requestLocationUpdates: " + exception.localizedMessage)
             }
         }
         return lastKnownLocation
+    }
+
+    private fun getNameOfCity(phrase: List<String>, isEnglish: Boolean): String {
+        var result = ""
+        if (isEnglish) {
+            for (i in 0 until phrase.size - 1) {
+                result += phrase[i]
+            }
+        } else {
+            for (i in 1 until phrase.size) {
+                result += phrase[i]
+            }
+        }
+        return result
     }
 }
