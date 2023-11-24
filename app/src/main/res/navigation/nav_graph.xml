@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/nav_quran"
-        android:name="com.setiadev.quran.presentation.quran.QuranFragment"
+        android:name="com.amel.quran.presentation.quran.QuranFragment"
         android:label="fragment_quran"
         tools:layout="@layout/fragment_quran"/>
     <fragment
         android:id="@+id/nav_adzan"
-        android:name="com.setiadev.quran.presentation.adzan.AdzanFragment"
+        android:name="com.amel.quran.presentation.adzan.AdzanFragment"
         android:label="fragment_adzan"
         tools:layout="@layout/fragment_adzan"/>
 

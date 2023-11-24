@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.setiadev.quran"
+    namespace = "com.amel.quran"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.setiadev.quran"
+        applicationId = "com.amel.quran"
         minSdk = 30
         targetSdk = 34
         versionCode = 1
@@ -22,6 +22,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
