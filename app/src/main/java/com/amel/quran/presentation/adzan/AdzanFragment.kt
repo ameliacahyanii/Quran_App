@@ -55,18 +55,22 @@ class AdzanFragment : Fragment() {
                         }
 
                         is Resource.Error -> {
-                            Log.e("AdzanFragment", "error getting schedule: ${adzanTime.message}", )
+                            Log.e("AdzanFragment",
+                                 "error getting schedule: ${adzanTime.message}",
+                                )
                             Toast.makeText(context, "Error: ${adzanTime.message}", Toast.LENGTH_SHORT).show()
                         }
                         else -> {
-                            Log.e("AdzanFragment", "error getting location: ${it.message}", )
+                            Log.e("AdzanFragment",
+                                 "error getting location: ${it.message}", )
                             Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
 
                 is Resource.Error -> {
-                    Log.e("AdzanFragment", "error observing AdzanViewModel: ${it.message}", )
+                    Log.e("AdzanFragment",
+                         "error observing AdzanViewModel: ${it.message}", )
                     Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
                 }
             }

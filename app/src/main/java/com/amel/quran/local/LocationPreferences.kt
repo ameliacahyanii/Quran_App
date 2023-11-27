@@ -5,7 +5,6 @@ import android.content.Context
 import android.location.Geocoder
 import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -21,7 +20,7 @@ class LocationPreferences(val context: Context) {
         val lastKnownLocation = MutableLiveData<List<String>>()
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             val geocoder = Geocoder(context, Locale.getDefault())
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (Build.VERSION.SDK_INT >= 33) {
                 geocoder.getFromLocation(
                     location.latitude,
                     location.longitude,
@@ -32,7 +31,9 @@ class LocationPreferences(val context: Context) {
                     val cityListName = city.split(" ")
 
                     val currentLanguage = Locale.getDefault().language
-                    Log.i("LocPref", "currentLanguage: $currentLanguage")
+                    Log.i("LocPref",
+                         "currentLanguage: $currentLanguage"
+                    )
 
                     val resultOfCity = when (currentLanguage) {
                         "in" -> getNameOfCity(cityListName, false)
@@ -50,11 +51,38 @@ class LocationPreferences(val context: Context) {
                     Log.i("LocPref", "getLastKnownLocation: $listCity")
                     lastKnownLocation.postValue(listCity)
                 }
+            } else {
+                @Suppress("DEPRECATION") val listAddress = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                val city = listAddress?.get(0)?.subAdminArea
+                val cityLastName = city?.split(" ")
+
+                val currentLanguage = Locale.getDefault().language
+                Log.i("LocPref", "currentLanguage: $currentLanguage")
+
+                val resultOfCity = if (cityLastName != null) {
+                    when (currentLanguage) {
+                        "in" -> getNameOfCity(cityLastName, false)
+                        "en" -> getNameOfCity(cityLastName, true)
+                        else -> "Jakarta"
+                    }
+                } else {
+                    "Jakarta"
+                }
+                Log.i("LocPref", "City Name: $resultOfCity")
+
+                val subLocality = listAddress?.get(0)?.subLocality
+                val locality = listAddress?.get(0)?.locality
+                val  address = "$subLocality, $locality"
+                Log.i("LocPref", "Address: $address")
+
+                val listCity = listOf(resultOfCity, address)
+                Log.i("LocPref", "getLastKnownLocation: $listCity")
+                lastKnownLocation.postValue(listCity)
             }
 
-            fusedLocationClient.lastLocation.addOnFailureListener { exception ->
-                Log.e("LocPref", "requestLocationUpdates: " + exception.localizedMessage)
-            }
+//            fusedLocationClient.lastLocation.addOnFailureListener { exception ->
+//                Log.e("LocPref", "requestLocationUpdates: " + exception.localizedMessage)
+//            }
         }
         return lastKnownLocation
     }

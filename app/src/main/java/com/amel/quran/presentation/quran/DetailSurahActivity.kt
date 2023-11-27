@@ -37,10 +37,10 @@ class DetailSurahActivity : AppCompatActivity() {
         _binding = ActivityDetailSurahBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            _surah = intent.getParcelableExtra(EXTRA_DATA, Surah::class.java)
+        _surah = when {
+            Build.VERSION.SDK_INT >= 33 -> intent.getParcelableExtra(EXTRA_DATA, Surah::class.java)
+            else -> @Suppress("DEPRECATION") intent.getParcelableExtra(EXTRA_DATA)
         }
-
         initView()
 
         val mAdapter = SurahAdapter()
