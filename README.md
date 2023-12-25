@@ -1,4 +1,4 @@
-# ☪️AQur'an App
+# 📖AQur'an App
 Your all-in-one digital companion for exploring the Quran. Elevate your spiritual journey with the Al-Quran as your constant companion. May this app be a source of inspiration, enlightenment, and connection to the divine.
 
 ![Mock Up Muslim Media App_A![Poster Aquran App_Amelia Cahyani XI RPL](https://github.com/ameliacahyanii/Quran_App/assets/110214422/547fa67c-2ee1-4765-96de-91d046678168)
